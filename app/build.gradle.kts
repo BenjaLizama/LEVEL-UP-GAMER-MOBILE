@@ -88,4 +88,7 @@ dependencies {
 
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
+
+    implementation("androidx.compose.ui:ui-text-google-fonts:1.7.0") // o tu versión actual de Compose
+    implementation("com.google.android.gms:play-services-base:18.5.0")
 }

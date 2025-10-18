@@ -7,6 +7,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavController
+import com.levelup.level_up_gamer_mobile.ui.components.organisms.ProfileSettings
 
 @Composable
 fun Profile(navController: NavController) {
@@ -15,6 +16,6 @@ fun Profile(navController: NavController) {
             .fillMaxSize(),
         contentAlignment = Alignment.Center
     ) {
-        Text("Perfil")
+        ProfileSettings()
     }
 }
