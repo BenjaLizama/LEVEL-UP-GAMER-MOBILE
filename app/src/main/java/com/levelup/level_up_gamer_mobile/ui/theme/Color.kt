@@ -1,5 +1,6 @@
 package com.levelup.level_up_gamer_mobile.ui.theme
 
+import androidx.compose.material3.ButtonColors
 import androidx.compose.ui.graphics.Color
 
 val Purple80 = Color(0xFFD0BCFF)
@@ -13,6 +14,6 @@ val Pink40 = Color(0xFF7D5260)
 // Mis colores
 val ColorFondo = Color(0xFF081127)
 val ColorBarraNavegacion = Color(0x40010101)
-val ColorAcento = Color(0x901E90FF)
+val ColorAcento = Color(0xFF1e90ff)
 val ColorTextoPrincipal = Color(0xFFFFFFFF)
 val ColorTextoSecundario = Color(0xFFeeeeee)
