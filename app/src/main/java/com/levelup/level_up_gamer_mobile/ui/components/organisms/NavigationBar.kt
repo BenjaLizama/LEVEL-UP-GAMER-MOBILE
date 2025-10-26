@@ -16,13 +16,6 @@ fun NavigationBar(navController: NavController) {
             .fillMaxWidth()
     ) {
         ButtonNavigation(
-            "Inicio",
-            AtomsIcons.Home,
-            "home",
-            navController,
-            modifier = Modifier.weight(1f).height(100.dp)
-        )
-        ButtonNavigation(
             "Tienda",
             AtomsIcons.Shop,
             "marketplace",

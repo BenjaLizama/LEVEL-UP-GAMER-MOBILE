@@ -42,7 +42,6 @@ fun ContainerProfileOption(options: List<Pair<ImageVector, String>>, text: Strin
 @Composable
 fun ProfileSectionPreview() {
     val items = listOf(
-        Pair(AtomsIcons.Home, "Inicio"),
         Pair(AtomsIcons.Badge, "Perfil"),
         Pair(AtomsIcons.Heart, "Carrito"),
         Pair(AtomsIcons.Invoice, "Tienda")

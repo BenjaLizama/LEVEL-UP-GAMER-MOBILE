@@ -11,7 +11,6 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.levelup.level_up_gamer_mobile.ui.components.organisms.NavigationBar
 import com.levelup.level_up_gamer_mobile.ui.screens.Cart
-import com.levelup.level_up_gamer_mobile.ui.screens.Home
 import com.levelup.level_up_gamer_mobile.ui.screens.Marketplace
 import com.levelup.level_up_gamer_mobile.ui.screens.Profile
 import com.levelup.level_up_gamer_mobile.ui.screens.Test
@@ -24,7 +23,6 @@ fun AppNavegacion() {
     Column (modifier = Modifier.fillMaxSize().background(ColorFondo)) {
         Box(modifier = Modifier.weight(1f)) {
             NavHost(navController = navController, startDestination = "test") {
-                composable("home") { Home(navController) }
                 composable("marketplace") { Marketplace(navController) }
                 composable("cart") { Cart(navController) }
                 composable("profile") { Profile(navController) }
