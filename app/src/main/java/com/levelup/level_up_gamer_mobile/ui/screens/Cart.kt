@@ -7,9 +7,10 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavController
+import com.levelup.level_up_gamer_mobile.viewmodel.AuthViewModel
 
 @Composable
-fun Cart(navController: NavController) {
+fun Cart(navController: NavController, authViewModel: AuthViewModel) {
     Box(
         modifier = Modifier
             .fillMaxSize(),

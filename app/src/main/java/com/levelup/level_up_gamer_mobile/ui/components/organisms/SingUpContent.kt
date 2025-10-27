@@ -23,22 +23,23 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.levelup.level_up_gamer_mobile.ui.theme.ColorAcento
-import com.levelup.level_up_gamer_mobile.viewmodel.SingUpUiState
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.em
+import com.levelup.level_up_gamer_mobile.viewmodel.AuthUiState
 
 @Composable
 fun SingUpContent(
-    uiState: SingUpUiState,
+    uiState: AuthUiState,
     onNameChange: (String) -> Unit,
     onLastNameChange: (String) -> Unit,
     onEmailChange: (String) -> Unit,
     onPassChange: (String) -> Unit,
     onConfirmPassChange: (String) -> Unit,
     onSingUpClicked: () -> Unit,
+    onLogInClicked: () -> Unit,
 ) {
     Column(
         modifier = Modifier
@@ -60,7 +61,7 @@ fun SingUpContent(
             .fillMaxWidth()
         ) {
             OutlinedTextField(
-                value = uiState.name,
+                value = uiState.signUpName,
                 onValueChange = onNameChange,
                 label = {Text("Nombre")},
                 modifier = Modifier.weight(1f),
@@ -78,11 +79,11 @@ fun SingUpContent(
                     unfocusedContainerColor = Color.Transparent,
                     cursorColor = ColorAcento
                 ),
-                isError = uiState.nameError != null,
+                isError = uiState.signUpNameError != null,
                 supportingText = {
-                    if (uiState.nameError != null) {
+                    if (uiState.signUpNameError != null) {
                         Text(
-                            text = uiState.nameError,
+                            text = uiState.signUpNameError,
                             color = MaterialTheme.colorScheme.error
                         )
                     }
@@ -92,7 +93,7 @@ fun SingUpContent(
             Spacer(modifier = Modifier.width(5.dp))
 
             OutlinedTextField(
-                value = uiState.lastName,
+                value = uiState.signUpLastName,
                 onValueChange = onLastNameChange,
                 label = {Text("Apellido")},
                 modifier = Modifier.weight(1f),
@@ -110,11 +111,11 @@ fun SingUpContent(
                     unfocusedContainerColor = Color.Transparent,
                     cursorColor = ColorAcento
                 ),
-                isError = uiState.lastNameError != null,
+                isError = uiState.signUpLastNameError != null,
                 supportingText = {
-                    if (uiState.lastNameError != null) {
+                    if (uiState.signUpLastNameError != null) {
                         Text(
-                            text = uiState.lastNameError,
+                            text = uiState.signUpLastNameError,
                             color = MaterialTheme.colorScheme.error
                         )
                     }
@@ -125,7 +126,7 @@ fun SingUpContent(
         Spacer(modifier = Modifier.height(16.dp))
 
         OutlinedTextField(
-            value = uiState.email,
+            value = uiState.signUpEmail,
             onValueChange = onEmailChange,
             label = {Text("Correo electronico")},
             modifier = Modifier.fillMaxWidth(),
@@ -143,11 +144,11 @@ fun SingUpContent(
                 unfocusedContainerColor = Color.Transparent,
                 cursorColor = ColorAcento
             ),
-            isError = uiState.emailError != null,
+            isError = uiState.signUpEmailError != null,
             supportingText = {
-                if (uiState.emailError != null) {
+                if (uiState.signUpEmailError != null) {
                     Text(
-                        text = uiState.emailError,
+                        text = uiState.signUpEmailError,
                         color = MaterialTheme.colorScheme.error
                     )
                 }
@@ -157,7 +158,7 @@ fun SingUpContent(
         Spacer(modifier = Modifier.height(16.dp))
 
         OutlinedTextField(
-            value = uiState.pass,
+            value = uiState.signUpPass,
             onValueChange = onPassChange,
             label = {Text("Contraseña")},
             modifier = Modifier.fillMaxWidth(),
@@ -175,11 +176,11 @@ fun SingUpContent(
                 unfocusedContainerColor = Color.Transparent,
                 cursorColor = ColorAcento
             ),
-            isError = uiState.passError != null,
+            isError = uiState.signUpPassError != null,
             supportingText = {
-                if (uiState.passError != null) {
+                if (uiState.signUpPassError != null) {
                     Text(
-                        text = uiState.passError,
+                        text = uiState.signUpPassError,
                         color = MaterialTheme.colorScheme.error
                     )
                 }
@@ -189,7 +190,7 @@ fun SingUpContent(
         Spacer(modifier = Modifier.height(16.dp))
 
         OutlinedTextField(
-            value = uiState.confirmPass,
+            value = uiState.signUpConfirmPass,
             onValueChange = onConfirmPassChange,
             label = {Text("Confirmar contraseña")},
             modifier = Modifier.fillMaxWidth(),
@@ -207,11 +208,11 @@ fun SingUpContent(
                 unfocusedContainerColor = Color.Transparent,
                 cursorColor = ColorAcento
             ),
-            isError = uiState.confirmPassError != null,
+            isError = uiState.signUpConfirmPassError != null,
             supportingText = {
-                if (uiState.confirmPassError != null) {
+                if (uiState.signUpConfirmPassError != null) {
                     Text(
-                        text = uiState.confirmPassError,
+                        text = uiState.signUpConfirmPassError,
                         color = MaterialTheme.colorScheme.error
                     )
                 }
@@ -224,7 +225,7 @@ fun SingUpContent(
             .fillMaxWidth()
         ) {
             OutlinedButton (
-                onClick = {null},
+                onClick = onLogInClicked,
                 enabled = true,
                 modifier = Modifier
                     .weight(1f)
@@ -239,7 +240,7 @@ fun SingUpContent(
 
             Button(
                 onClick = onSingUpClicked,
-                enabled = uiState.isRegisterButtonEnabled && !uiState.isLoading,
+                enabled = uiState.isSignUpButtonEnabled && !uiState.isSignUpLoading,
                 modifier = Modifier
                     .weight(1f)
                     .height(50.dp),
@@ -248,7 +249,7 @@ fun SingUpContent(
                 ),
                 shape = RoundedCornerShape(8.dp)
             ) {
-                if (uiState.isLoading) {
+                if (uiState.isSignUpLoading) {
                     CircularProgressIndicator(modifier = Modifier.size(24.dp))
                 } else {
                     Text("Registrarme")

@@ -8,6 +8,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.levelup.level_up_gamer_mobile.ui.components.molecules.ButtonNavigation
+import com.levelup.level_up_gamer_mobile.ui.navigation.Routes
 
 @Composable
 fun NavigationBar(navController: NavController) {
@@ -18,21 +19,21 @@ fun NavigationBar(navController: NavController) {
         ButtonNavigation(
             "Tienda",
             AtomsIcons.Shop,
-            "marketplace",
+            Routes.HOME,
             navController,
             modifier = Modifier.weight(1f).height(100.dp)
         )
         ButtonNavigation(
             "Carrito",
             AtomsIcons.Cart,
-            "cart",
+            Routes.CART,
             navController,
             modifier = Modifier.weight(1f).height(100.dp)
         )
         ButtonNavigation(
             "Perfil",
             AtomsIcons.Profile,
-            "profile",
+            Routes.PROFILE,
             navController,
             modifier = Modifier.weight(1f).height(100.dp)
         )

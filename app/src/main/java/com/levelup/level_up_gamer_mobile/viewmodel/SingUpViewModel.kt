@@ -3,10 +3,22 @@ package com.levelup.level_up_gamer_mobile.viewmodel
 import android.util.Log
 import android.util.Patterns
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.viewmodel.compose.viewModel
+import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.launch
+
+sealed interface SingUpNavigationEvent {
+    // Navega hacia la tienda si el usuario se registra correctamente
+    data object NavigateToMarketplace: SingUpNavigationEvent
+    // Navega hacia inicio de sesion si el usuario lo solicita
+    data object NavigateToLogIn: SingUpNavigationEvent
+}
 
 data class SingUpUiState(
     val name: String = "",
@@ -27,6 +39,9 @@ data class SingUpUiState(
 )
 
 class SingUpViewModel : ViewModel() {
+    private val _navigationEvent = MutableSharedFlow<SingUpNavigationEvent>()
+    val navigateEvent = _navigationEvent.asSharedFlow()
+
     private val _uiState = MutableStateFlow(SingUpUiState())
     val uiState: StateFlow<SingUpUiState> = _uiState.asStateFlow()
 
@@ -37,7 +52,18 @@ class SingUpViewModel : ViewModel() {
 
         // Llamar al modelo aqui {
         //
-        // }
+        // } => { isRegistrationSuccessful }
+
+        val isRegistrationSuccessful = true
+
+        // Si el registro del usuario se cumple con exito =>
+        if (isRegistrationSuccessful) {
+            viewModelScope.launch {
+                _navigationEvent.emit(SingUpNavigationEvent.NavigateToMarketplace)
+            }
+        } else {
+            // Manejar logica en caso de que el registro falle
+        }
 
         Log.d("SingUpViewModel", "Registrando usuario... estado: ${_uiState.value}")
     }

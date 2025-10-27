@@ -39,7 +39,6 @@ fun ButtonNavigation(
     Button(
         onClick = {
             navController.navigate(route) {
-                popUpTo(navController.graph.startDestinationId) { saveState = true }
                 launchSingleTop = true
                 restoreState = true
             }
