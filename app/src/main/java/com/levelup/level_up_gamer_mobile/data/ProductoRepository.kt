@@ -5,7 +5,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.withContext
 
-class ProductoRepository(context: Context) {
+    class ProductoRepository(context: Context) {
 
     // Obtenemos la referencia al DAO desde el Singleton de la BD
     // CORRECCIÓN 1: getDatabase (d minúscula)

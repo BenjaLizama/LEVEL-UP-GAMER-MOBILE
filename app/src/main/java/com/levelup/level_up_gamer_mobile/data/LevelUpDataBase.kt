@@ -6,11 +6,13 @@ import androidx.room.Room
 import androidx.room.RoomDatabase
 
 // 1. Corregida: Sin paréntesis vacíos
-@Database(entities = [Producto::class], version = 1, exportSchema = false)
+@Database(entities = [Producto::class,Usuario::class] , version = 2, exportSchema = false)
 abstract class LevelUpDataBase: RoomDatabase() {
 
     // Función abstracta para obtener el DAO
     abstract fun productDao(): ProductoDao
+    abstract fun usuarioDao(): UsuarioDao
+
 
     companion object {
 
