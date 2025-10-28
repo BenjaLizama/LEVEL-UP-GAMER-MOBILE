@@ -18,6 +18,7 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             LEVELUPGAMERMOBILETheme {
+<<<<<<< HEAD
                 Surface(
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
@@ -25,6 +26,9 @@ class MainActivity : ComponentActivity() {
 
                     AppNavegacion()
                 }
+=======
+                AppNavegacion()
+>>>>>>> 070ba14810bf06b3ff7c011348ba2634bbbc1c16
             }
         }
     }
