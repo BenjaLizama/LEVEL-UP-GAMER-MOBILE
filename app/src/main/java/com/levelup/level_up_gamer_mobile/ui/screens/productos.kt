@@ -16,8 +16,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
-import com.levelup.level_up_gamer_mobile.data.Producto
-import com.levelup.level_up_gamer_mobile.data.ProductoRepository
+import com.levelup.level_up_gamer_mobile.data.model.Producto
+import com.levelup.level_up_gamer_mobile.data.repository.ProductoRepository
+import com.levelup.level_up_gamer_mobile.viewmodel.ProductoViewModel
 
 // Helper para obtener el ViewModel con la Factory
 @Composable

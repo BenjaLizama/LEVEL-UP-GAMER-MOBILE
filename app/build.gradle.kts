@@ -3,6 +3,8 @@ plugins {
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.compose)
     id("org.jetbrains.kotlin.kapt")
+    id("com.google.dagger.hilt.android")
+
 }
 
 android {
@@ -94,8 +96,12 @@ dependencies {
     implementation("androidx.compose.ui:ui-text-google-fonts:1.7.0") // o tu versión actual de Compose
     implementation("com.google.android.gms:play-services-base:18.5.0")
 
+    //implementacion de room
     implementation ("androidx.room:room-ktx:2.6.1")
     implementation("androidx.room:room-runtime:2.6.1")
     kapt("androidx.room:room-compiler:2.6.1")
 
+    //implementacion de hilt
+    implementation("com.google.dagger:hilt-android:2.51.1")
+    kapt("com.google.dagger:hilt-android-compiler:2.51.1")
 }

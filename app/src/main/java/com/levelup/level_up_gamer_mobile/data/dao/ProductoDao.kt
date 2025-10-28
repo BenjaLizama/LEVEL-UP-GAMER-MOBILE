@@ -1,13 +1,13 @@
-package com.levelup.level_up_gamer_mobile.data
+package com.levelup.level_up_gamer_mobile.data.dao
 
 import androidx.room.Dao
 import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.Query
 import androidx.room.Update
+import com.levelup.level_up_gamer_mobile.data.model.Producto
 
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.withContext
 
 @Dao
 interface ProductoDao {
@@ -21,10 +21,10 @@ interface ProductoDao {
     @Delete
      suspend fun eliminar(producto: Producto)
 
-    @Query("SELECT * FROM TABLA_PRODUCTOS ORDER BY id DESC")
+    @Query("SELECT * FROM tabla_producto ORDER BY id DESC")
     fun obtenerProductos(): Flow<List<Producto>>
 
-    @Query("SELECT * FROM TABLA_PRODUCTOS WHERE id = :id")
+    @Query("SELECT * FROM tabla_producto WHERE id = :id")
     suspend fun obtenerProductoPorId(id: Int): Producto?
 
 }

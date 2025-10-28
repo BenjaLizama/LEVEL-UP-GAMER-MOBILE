@@ -4,14 +4,23 @@ import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
+import com.levelup.level_up_gamer_mobile.data.dao.CategoriaDao
+import com.levelup.level_up_gamer_mobile.data.dao.ProductoDao
+import com.levelup.level_up_gamer_mobile.data.dao.UsuarioDao
+import com.levelup.level_up_gamer_mobile.data.model.Categoria
+import com.levelup.level_up_gamer_mobile.data.model.Producto
+import com.levelup.level_up_gamer_mobile.data.model.Usuario
 
 // 1. Corregida: Sin paréntesis vacíos
-@Database(entities = [Producto::class,Usuario::class] , version = 2, exportSchema = false)
+@Database(entities = [Producto::class, Usuario::class, Categoria::class] , version = 4, exportSchema = false)
 abstract class LevelUpDataBase: RoomDatabase() {
 
     // Función abstracta para obtener el DAO
     abstract fun productDao(): ProductoDao
     abstract fun usuarioDao(): UsuarioDao
+    abstract fun categoriaDao(): CategoriaDao
+
+    // Patrón Singleton para obtener la base de datos
 
 
     companion object {

@@ -3,6 +3,8 @@ package com.levelup.level_up_gamer_mobile.viewmodel
 import android.util.Patterns
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.levelup.level_up_gamer_mobile.App
+import com.levelup.level_up_gamer_mobile.data.repository.UsuarioRepository
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -10,6 +12,8 @@ import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+
+private val AuthViewModel
 
 sealed interface AuthNavigationEvent {
     data object NavigateToHome: AuthNavigationEvent
@@ -195,9 +199,36 @@ class AuthViewModel : ViewModel() {
         if (!_uiState.value.isSignUpButtonEnabled) return
         _uiState.update { it.copy(isSignUpLoading = true) }
 
-        // Logica de registro aqui => {
-        //
-        // } [ isRegistrationSuccessful ]
+        viewModelScope.launch {
+            try {
+                // 1. Obtenemos los datos actuales del State
+                val state = _uiState.value
+
+                // 2. Llamamos al repositorio (la variable de nuestra clase)
+                //    usando la función "agragarUsuario" que creaste.
+                usuarioRepository.agragarUsuario(
+                    name = state.signUpName,
+                    lastname = state.signUpLastName,
+                    email = state.signUpEmail,
+                    password = state.signUpPass
+                )
+
+                // 3. ¡Éxito! Navegamos a Home
+                _navigationEvent.emit(AuthNavigationEvent.NavigateToHome)
+
+            } catch (e: Exception) {
+                // 4. ¡Error! Actualizamos la UI con el mensaje
+                //    (ej: "El correo ya existe" vendrá de la base de datos)
+                _uiState.update {
+                    it.copy(
+                        isSignUpLoading = false,
+                        signUpErrorMessage = e.message ?: "Ocurrió un error desconocido"
+                    )
+                }
+            }
+        }
+
+
         val isRegistrationSuccessful = true
 
         if (isRegistrationSuccessful) {

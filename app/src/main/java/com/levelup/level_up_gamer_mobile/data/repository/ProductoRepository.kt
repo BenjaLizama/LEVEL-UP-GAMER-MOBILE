@@ -1,6 +1,8 @@
-package com.levelup.level_up_gamer_mobile.data
+package com.levelup.level_up_gamer_mobile.data.repository
 
 import android.content.Context
+import com.levelup.level_up_gamer_mobile.data.LevelUpDataBase
+import com.levelup.level_up_gamer_mobile.data.model.Producto
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.withContext
@@ -10,7 +12,7 @@ import kotlinx.coroutines.withContext
     // Obtenemos la referencia al DAO desde el Singleton de la BD
     // CORRECCIÓN 1: getDatabase (d minúscula)
     // CORRECCIÓN 2: .productoDao() (p minúscula)
-    private val productoDao = LevelUpDataBase.getDatabase(context).productDao()
+    private val productoDao = LevelUpDataBase.Companion.getDatabase(context).productDao()
 
     // FUNCIÓN PARA INSERTAR (INSERT)
     suspend fun insertar(producto: Producto) {
