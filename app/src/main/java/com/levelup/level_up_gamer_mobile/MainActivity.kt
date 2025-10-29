@@ -18,17 +18,14 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             LEVELUPGAMERMOBILETheme {
-<<<<<<< HEAD
+                // QUÉDATE CON ESTE CÓDIGO
                 Surface(
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
-
                     AppNavegacion()
                 }
-=======
-                AppNavegacion()
->>>>>>> 070ba14810bf06b3ff7c011348ba2634bbbc1c16
+
             }
         }
     }

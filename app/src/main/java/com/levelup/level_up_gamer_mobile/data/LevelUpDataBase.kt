@@ -12,7 +12,7 @@ import com.levelup.level_up_gamer_mobile.data.model.Producto
 import com.levelup.level_up_gamer_mobile.data.model.Usuario
 
 // 1. Corregida: Sin paréntesis vacíos
-@Database(entities = [Producto::class, Usuario::class, Categoria::class] , version = 4, exportSchema = false)
+@Database(entities = [Producto::class, Usuario::class, Categoria::class] , version = 5, exportSchema = false)
 abstract class LevelUpDataBase: RoomDatabase() {
 
     // Función abstracta para obtener el DAO

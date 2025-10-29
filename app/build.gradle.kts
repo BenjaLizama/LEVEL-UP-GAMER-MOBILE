@@ -104,4 +104,5 @@ dependencies {
     //implementacion de hilt
     implementation("com.google.dagger:hilt-android:2.51.1")
     kapt("com.google.dagger:hilt-android-compiler:2.51.1")
+    implementation(libs.bcrypt)
 }

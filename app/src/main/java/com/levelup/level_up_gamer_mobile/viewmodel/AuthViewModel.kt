@@ -1,10 +1,14 @@
 package com.levelup.level_up_gamer_mobile.viewmodel
 
+// NO importamos Application, ya no se necesita
 import android.util.Patterns
-import androidx.lifecycle.ViewModel
+import androidx.lifecycle.ViewModel // Heredamos de ViewModel normal
 import androidx.lifecycle.viewModelScope
 import com.levelup.level_up_gamer_mobile.App
 import com.levelup.level_up_gamer_mobile.data.repository.UsuarioRepository
+
+// QUITAMOS el import de dagger.hilt
+// ...otros imports...
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -13,7 +17,7 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
-private val AuthViewModel
+
 
 sealed interface AuthNavigationEvent {
     data object NavigateToHome: AuthNavigationEvent
@@ -46,6 +50,7 @@ data class AuthUiState(
     val signUpConfirmPassError: String? = null
 )
 
+// CAMBIO 1: El constructor ya no recibe 'application'
 class AuthViewModel : ViewModel() {
 
     // --- Navegacion ---
@@ -56,8 +61,13 @@ class AuthViewModel : ViewModel() {
     private val _uiState = MutableStateFlow(AuthUiState())
     val uiState: StateFlow<AuthUiState> = _uiState.asStateFlow()
 
-    // --- Logica de login ---
+    // Esta línea está perfecta, usa la Solución 1
+    private val usuarioRepository: UsuarioRepository = App.repository
 
+
+
+    // --- Logica de login ---
+    // (Todo esto queda igual)
     fun onLoginEmailChange(email: String) {
         _uiState.update { it.copy(loginEmail = email) }
         validateLoginForm()
@@ -104,15 +114,29 @@ class AuthViewModel : ViewModel() {
         // Logica del login aqui => {
         //
         // } => [ isLoginSuccessful ]
-        val isLoginSuccessful = true
+        viewModelScope.launch {
+            try {
+                // 1. Obtenemos los datos actuales del State
+                val state = _uiState.value
 
-        if (isLoginSuccessful) {
-            viewModelScope.launch {
+                // 2. ¡AQUÍ ESTÁ! Llamamos al repositorio para validar el login
+                usuarioRepository.validarLogin(
+                    email = state.loginEmail,
+                    password = state.loginPass
+                )
+
+                // 3. ¡Éxito! Navegamos a Home
                 _navigationEvent.emit(AuthNavigationEvent.NavigateToHome)
-            }
-        } else {
-            _uiState.update {
-                it.copy(isLoginLoading = false, loginErrorMessage = "Credenciales incorrectas")
+
+            } catch (e: Exception) {
+                // 4. ¡Error! Actualizamos la UI con el mensaje
+                //    (ej: "Contraseña incorrecta" vendrá del repositorio)
+                _uiState.update {
+                    it.copy(
+                        isLoginLoading = false,
+                        loginErrorMessage = e.message ?: "Ocurrió un error desconocido"
+                    )
+                }
             }
         }
     }
@@ -124,6 +148,7 @@ class AuthViewModel : ViewModel() {
     }
 
     // --- SingUp ---
+    // (Validaciones quedan igual)
     fun onSignUpNameChange(name: String) {
         _uiState.update { it.copy(signUpName = name) }
         validateSignUpForm()
@@ -195,7 +220,8 @@ class AuthViewModel : ViewModel() {
         }
     }
 
-    fun onSingUpClicked() { // Mantengo tu nombre "onSingUpClicked"
+    // CAMBIO 3: Esta es la función que preguntabas
+    fun onSingUpClicked() {
         if (!_uiState.value.isSignUpButtonEnabled) return
         _uiState.update { it.copy(isSignUpLoading = true) }
 
@@ -204,8 +230,7 @@ class AuthViewModel : ViewModel() {
                 // 1. Obtenemos los datos actuales del State
                 val state = _uiState.value
 
-                // 2. Llamamos al repositorio (la variable de nuestra clase)
-                //    usando la función "agragarUsuario" que creaste.
+                // 2. ¡AQUÍ ESTÁ! Llamamos al repositorio con los datos del state
                 usuarioRepository.agragarUsuario(
                     name = state.signUpName,
                     lastname = state.signUpLastName,
@@ -213,7 +238,7 @@ class AuthViewModel : ViewModel() {
                     password = state.signUpPass
                 )
 
-                // 3. ¡Éxito! Navegamos a Home
+                // 3. ¡Éxito! Navegamos a Home (DESPUÉS de agregar al usuario)
                 _navigationEvent.emit(AuthNavigationEvent.NavigateToHome)
 
             } catch (e: Exception) {
@@ -222,23 +247,14 @@ class AuthViewModel : ViewModel() {
                 _uiState.update {
                     it.copy(
                         isSignUpLoading = false,
+                        // Mostramos el mensaje de error que venga de la base de datos
                         signUpErrorMessage = e.message ?: "Ocurrió un error desconocido"
                     )
                 }
             }
         }
 
-
-        val isRegistrationSuccessful = true
-
-        if (isRegistrationSuccessful) {
-            viewModelScope.launch {
-                _navigationEvent.emit(AuthNavigationEvent.NavigateToHome)
-            }
-        } else {
-            _uiState.update {
-                it.copy(isSignUpLoading = false, signUpErrorMessage = "El correo ya existe")
-            }
-        }
+        // CAMBIO 4: BORRAMOS la lógica vieja de 'isRegistrationSuccessful'
+        // que estaba aquí.
     }
 }
