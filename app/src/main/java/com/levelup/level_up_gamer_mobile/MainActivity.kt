@@ -9,7 +9,6 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.ui.Modifier
 import com.levelup.level_up_gamer_mobile.ui.navigation.AppNavegacion
-import com.levelup.level_up_gamer_mobile.ui.screens.ProductosScreen // Usamos la ruta correcta de ProductosScreen
 import com.levelup.level_up_gamer_mobile.ui.theme.LEVELUPGAMERMOBILETheme
 
 class MainActivity : ComponentActivity() {
