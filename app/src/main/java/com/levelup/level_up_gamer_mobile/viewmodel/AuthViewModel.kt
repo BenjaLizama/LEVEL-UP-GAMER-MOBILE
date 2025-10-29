@@ -13,8 +13,6 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
-private val AuthViewModel
-
 sealed interface AuthNavigationEvent {
     data object NavigateToHome: AuthNavigationEvent
     data object NavigateToLogIn: AuthNavigationEvent
@@ -199,34 +197,7 @@ class AuthViewModel : ViewModel() {
         if (!_uiState.value.isSignUpButtonEnabled) return
         _uiState.update { it.copy(isSignUpLoading = true) }
 
-        viewModelScope.launch {
-            try {
-                // 1. Obtenemos los datos actuales del State
-                val state = _uiState.value
 
-                // 2. Llamamos al repositorio (la variable de nuestra clase)
-                //    usando la función "agragarUsuario" que creaste.
-                usuarioRepository.agragarUsuario(
-                    name = state.signUpName,
-                    lastname = state.signUpLastName,
-                    email = state.signUpEmail,
-                    password = state.signUpPass
-                )
-
-                // 3. ¡Éxito! Navegamos a Home
-                _navigationEvent.emit(AuthNavigationEvent.NavigateToHome)
-
-            } catch (e: Exception) {
-                // 4. ¡Error! Actualizamos la UI con el mensaje
-                //    (ej: "El correo ya existe" vendrá de la base de datos)
-                _uiState.update {
-                    it.copy(
-                        isSignUpLoading = false,
-                        signUpErrorMessage = e.message ?: "Ocurrió un error desconocido"
-                    )
-                }
-            }
-        }
 
 
         val isRegistrationSuccessful = true
