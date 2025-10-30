@@ -12,12 +12,14 @@ class CategoriaRepository(context: Context) {
 
     suspend fun insertar(categoria: Categoria) {
         withContext(Dispatchers.IO)
-        { categoriaDao.insertar(categoria)}
+        { categoriaDao.insertar(categoria) }
     }
+
     suspend fun eliminar(categoria: Categoria) {
         withContext(Dispatchers.IO)
-        {categoriaDao.eliminar(categoria) }
+        { categoriaDao.eliminar(categoria) }
     }
+
     suspend fun obtenerTodas(): Flow<List<Categoria>> {
         return categoriaDao.obtenerTodas()
 

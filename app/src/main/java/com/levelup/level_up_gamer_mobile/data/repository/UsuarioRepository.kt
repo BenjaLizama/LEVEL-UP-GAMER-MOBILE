@@ -10,8 +10,12 @@ import kotlinx.coroutines.withContext
 class UsuarioRepository(private val usuarioDao: UsuarioDao) {
 
 
-
-    suspend fun agragarUsuario(name: String, lastname: String, email: String, password: String): Usuario {
+    suspend fun agragarUsuario(
+        name: String,
+        lastname: String,
+        email: String,
+        password: String
+    ): Usuario {
         // ¡CIFRAMOS EL PASSWORD!
         val hashedPassword = PasswordHasher.hashPassword(password)
 
@@ -64,18 +68,16 @@ class UsuarioRepository(private val usuarioDao: UsuarioDao) {
     }
 
 
-
-
-    suspend fun  eliminar (usuario: Usuario) {
+    suspend fun eliminar(usuario: Usuario) {
         withContext(Dispatchers.IO)
         { usuarioDao.eliminar(usuario) }
     }
 
-    fun obtenerUsuarios() : Flow<List<Usuario>> {
+    fun obtenerUsuarios(): Flow<List<Usuario>> {
         return usuarioDao.obtenerUsuarios()
     }
 
-    suspend fun obtenerUsuario(name: String) : Flow<Usuario> {
+    suspend fun obtenerUsuario(name: String): Flow<Usuario> {
         return usuarioDao.obtenerUsuario(name)
     }
 

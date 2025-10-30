@@ -11,19 +11,19 @@ import kotlinx.coroutines.flow.Flow
 @Dao
 interface UsuarioDao {
     @Insert
-        suspend fun insertar(usuario: Usuario)
+    suspend fun insertar(usuario: Usuario)
 
-   @Update
-        suspend fun actualizar(usuario: Usuario)
+    @Update
+    suspend fun actualizar(usuario: Usuario)
 
-   @Delete
-        suspend fun eliminar(usuario: Usuario)
+    @Delete
+    suspend fun eliminar(usuario: Usuario)
 
-   @Query("SELECT * FROM tabla_usuario ORDER BY id DESC")
-        fun obtenerUsuarios(): Flow<List<Usuario>>
+    @Query("SELECT * FROM tabla_usuario ORDER BY id DESC")
+    fun obtenerUsuarios(): Flow<List<Usuario>>
 
-   @Query("SELECT * FROM tabla_usuario WHERE name = :name ")
-        fun obtenerUsuario(name: String): Flow<Usuario>
+    @Query("SELECT * FROM tabla_usuario WHERE name = :name ")
+    fun obtenerUsuario(name: String): Flow<Usuario>
 
     @Query("SELECT * FROM tabla_usuario WHERE email = :email LIMIT 1")
     suspend fun findByEmail(email: String): Usuario?

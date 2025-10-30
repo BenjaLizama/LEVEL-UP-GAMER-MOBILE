@@ -7,7 +7,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.withContext
 
-    class ProductoRepository(context: Context) {
+class ProductoRepository(context: Context) {
 
     // Obtenemos la referencia al DAO desde el Singleton de la BD
     // CORRECCIÓN 1: getDatabase (d minúscula)
@@ -20,10 +20,12 @@ import kotlinx.coroutines.withContext
             productoDao.insertar(producto)
         }
     }
+
     suspend fun eliminar(producto: Producto) {
         withContext(Dispatchers.IO) {
             productoDao.eliminar(producto)
-        }}
+        }
+    }
 
 
     // FUNCIÓN PARA OBTENER TODOS (SELECT)

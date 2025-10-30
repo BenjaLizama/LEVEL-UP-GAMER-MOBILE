@@ -12,6 +12,7 @@ data class Producto(
     val price: Double,
     val description: String,
     val imagePath: String,
+    val idCategory: Long
 
 
 
