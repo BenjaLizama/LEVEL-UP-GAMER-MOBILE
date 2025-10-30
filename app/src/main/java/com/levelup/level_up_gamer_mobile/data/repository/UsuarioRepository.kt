@@ -11,7 +11,7 @@ class UsuarioRepository(private val usuarioDao: UsuarioDao) {
 
 
 
-    suspend fun agragarUsuario(name: String, lastname: String, email: String, password: String) {
+    suspend fun agragarUsuario(name: String, lastname: String, email: String, password: String): Usuario {
         // ¡CIFRAMOS EL PASSWORD!
         val hashedPassword = PasswordHasher.hashPassword(password)
 
@@ -20,6 +20,8 @@ class UsuarioRepository(private val usuarioDao: UsuarioDao) {
 
         // Llamamos a nuestra función "insertar"
         insertar(nuevoUsuario)
+
+        return nuevoUsuario
     }
 
     suspend fun insertar(usuario: Usuario) {
@@ -68,11 +70,17 @@ class UsuarioRepository(private val usuarioDao: UsuarioDao) {
         withContext(Dispatchers.IO)
         { usuarioDao.eliminar(usuario) }
     }
+
     fun obtenerUsuarios() : Flow<List<Usuario>> {
         return usuarioDao.obtenerUsuarios()
     }
+
     suspend fun obtenerUsuario(name: String) : Flow<Usuario> {
         return usuarioDao.obtenerUsuario(name)
+    }
+
+    suspend fun encontrarPorEmail(email: String): Usuario? {
+        return usuarioDao.findByEmail(email)
     }
 
 }

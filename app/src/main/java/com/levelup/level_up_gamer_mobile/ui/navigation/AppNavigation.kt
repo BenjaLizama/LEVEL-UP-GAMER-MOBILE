@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -27,6 +28,9 @@ import com.levelup.level_up_gamer_mobile.viewmodel.AuthViewModel
 @SuppressLint("UnrememberedGetBackStackEntry")
 @Composable
 fun AppNavegacion() {
+    // DataStore
+    val isLoggedInState by LoginStateManager.isLoggedIn.collectAsState(initial = null)
+
     val navController = rememberNavController()
     val authViewModel: AuthViewModel = viewModel()
 
@@ -38,35 +42,47 @@ fun AppNavegacion() {
 
     Column (modifier = Modifier.fillMaxSize().background(ColorFondo)) {
         Box(modifier = Modifier.weight(1f)) {
-            NavHost(navController = navController, startDestination = Routes.AUTH_GRAPH) {
-                navigation(
-                    startDestination = Routes.LOGIN,
-                    route = Routes.AUTH_GRAPH
-                ) {
 
-                    // --- 2. PANTALLA DE LOGIN ---
-                    composable(Routes.LOGIN) {
-                        LogInScreen(
-                            viewModel = authViewModel,
-                            navController = navController
-                        )
-                    }
-
-                    // --- 3. PANTALLA DE SIGNUP ---
-                    composable(Routes.SIGN_UP) {
-                        SingUpScreen(
-                            viewModel = authViewModel,
-                            navController = navController
-                        )
-                    }
+            // Espera que el estado cargue y no sea null
+            if (isLoggedInState != null) {
+                val startRoute = if (isLoggedInState == true) {
+                    Routes.HOME
+                } else {
+                    Routes.AUTH_GRAPH
                 }
 
-                // --- 4. TUS OTRAS RUTAS (van fuera del gráfico de auth) ---
-                composable(Routes.HOME) { HomeScreen(navController, authViewModel) }
-                composable(Routes.CART) { Cart(navController, authViewModel) }
-                composable(Routes.PROFILE) { Profile(navController, authViewModel) }
-                composable(Routes.TEST) { Test(navController) }
+                NavHost(navController = navController, startDestination = startRoute) {
+                    navigation(
+                        startDestination = Routes.LOGIN,
+                        route = Routes.AUTH_GRAPH
+                    ) {
+
+                        // --- 2. PANTALLA DE LOGIN ---
+                        composable(Routes.LOGIN) {
+                            LogInScreen(
+                                viewModel = authViewModel,
+                                navController = navController
+                            )
+                        }
+
+                        // --- 3. PANTALLA DE SIGNUP ---
+                        composable(Routes.SIGN_UP) {
+                            SingUpScreen(
+                                viewModel = authViewModel,
+                                navController = navController
+                            )
+                        }
+                    }
+
+                    // --- 4. TUS OTRAS RUTAS (van fuera del gráfico de auth) ---
+                    composable(Routes.HOME) { HomeScreen(navController, authViewModel) }
+                    composable(Routes.CART) { Cart(navController, authViewModel) }
+                    composable(Routes.PROFILE) { Profile(navController, authViewModel) }
+                    composable(Routes.TEST) { Test(navController) }
+                }
+
             }
+
         }
 
         // Muestra la barra de navegacion solo si la ruta no esta en la lista

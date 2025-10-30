@@ -28,4 +28,7 @@ interface UsuarioDao {
     @Query("SELECT * FROM tabla_usuario WHERE email = :email LIMIT 1")
     suspend fun findByEmail(email: String): Usuario?
 
+    @Query("SELECT * FROM tabla_usuario WHERE email = :email LIMIT 1")
+    fun obtenerUsuarioPorEmail(email: String): Flow<Usuario>
+
 }

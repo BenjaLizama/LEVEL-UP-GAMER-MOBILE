@@ -111,19 +111,22 @@ class AuthViewModel : ViewModel() {
         if (!_uiState.value.isLoginButtonEnabled) return
         _uiState.update { it.copy(isLoginLoading = true) }
 
-        // Logica del login aqui => {
-        //
-        // } => [ isLoginSuccessful ]
         viewModelScope.launch {
             try {
                 // 1. Obtenemos los datos actuales del State
                 val state = _uiState.value
 
                 // 2. ¡AQUÍ ESTÁ! Llamamos al repositorio para validar el login
-                usuarioRepository.validarLogin(
+                val loggedInUser = usuarioRepository.validarLogin(
                     email = state.loginEmail,
                     password = state.loginPass
                 )
+
+                // Guardamos el estado de autenticación en DataStore
+                LoginStateManager.saveLoginState(true)
+
+                val userID = loggedInUser.id
+                LoginStateManager.saveUserId(userID)
 
                 // 3. ¡Éxito! Navegamos a Home
                 _navigationEvent.emit(AuthNavigationEvent.NavigateToHome)
@@ -231,12 +234,18 @@ class AuthViewModel : ViewModel() {
                 val state = _uiState.value
 
                 // 2. ¡AQUÍ ESTÁ! Llamamos al repositorio con los datos del state
-                usuarioRepository.agragarUsuario(
+                val user = usuarioRepository.agragarUsuario(
                     name = state.signUpName,
                     lastname = state.signUpLastName,
                     email = state.signUpEmail,
                     password = state.signUpPass
                 )
+
+                val userID = user.id
+                LoginStateManager.saveUserId(userID)
+
+                // Guardar el estado de autenticación en DataStore
+                LoginStateManager.saveLoginState(true)
 
                 // 3. ¡Éxito! Navegamos a Home (DESPUÉS de agregar al usuario)
                 _navigationEvent.emit(AuthNavigationEvent.NavigateToHome)

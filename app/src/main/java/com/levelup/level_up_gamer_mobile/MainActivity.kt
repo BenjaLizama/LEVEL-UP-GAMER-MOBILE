@@ -1,5 +1,6 @@
 package com.levelup.level_up_gamer_mobile
 
+import LoginStateManager
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -14,6 +15,9 @@ import com.levelup.level_up_gamer_mobile.ui.theme.LEVELUPGAMERMOBILETheme
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        LoginStateManager.initialize(applicationContext)
+
         enableEdgeToEdge()
         setContent {
             LEVELUPGAMERMOBILETheme {

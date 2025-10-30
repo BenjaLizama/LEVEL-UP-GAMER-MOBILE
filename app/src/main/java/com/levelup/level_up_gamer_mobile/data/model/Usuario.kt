@@ -11,7 +11,4 @@ data class Usuario (
     val lastName: String,
     val password: String,
     val email: String
-
-
-
 )
